@@ -1,0 +1,53 @@
+<% layout('layouts/boilerplate') -%>
+
+    <section>
+        <form action="/products/<%=product._id%>?_method=PATCH" method="POST" class="validated-form" novalidate>
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Enter name of your product"
+                    value="<%=product.name%>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please choose a valid name.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="imgUrl">Image Url</label>
+                <input class="form-control" type="text" name="imgUrl" id="imgUrl"
+                    placeholder="Paste Image Url for your product here" value="<%=product.imgUrl%>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid Image URL.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="desc">Description</label>
+                <textarea class="form-control" type="text" name="desc" id="desc"
+                    placeholder="Please describe your product a little" required><%=product.desc%></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid description.
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Rs.</span>
+                <input type="text" class="form-control" name="price" id="price"
+                    aria-label="Amount (to the nearest dollar)" placeholder="Enter the Price for your product"
+                    value="<%=product.price%>" required>
+                <span class="input-group-text">.00</span>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid price.
+                </div>
+            </div>
+            <button class="btn btn-sm btn-outline-success">Update</button>
+        </form>
+    </section>
