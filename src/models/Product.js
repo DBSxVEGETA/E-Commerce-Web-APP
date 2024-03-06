@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema({
         type: Number,
         min: 0
     },
+    avgRating: {
+        type: Number,
+        default: 0
+    },
     reviews: [
         {
             type: mongoose.Schema.Types.ObjectId,

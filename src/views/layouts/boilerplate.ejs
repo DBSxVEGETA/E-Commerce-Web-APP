@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="font-weight: 400; ">
             <div class="container-fluid" style="margin-left: 20px;">
-                <a class="navbar-brand" href="#" style=" font-weight: 500;">Shopping-Cart</a>
+                <a class="navbar-brand" href="#" style=" font-weight: 500; margin-left: 70px;">Shopping-Cart</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -43,15 +43,44 @@
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                            style="font-size: 1.2rem;">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                            style="font-size: 1rem;">
+                        <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
                     </form>
-                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0" style="margin-right: 20px;">
+                    <!-- <ul class="navbar-nav ml-auto mb-2 mb-lg-0" style="margin-right: 20px;">
+                        <% if(!currentUser){ %>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/register">Sign Up</a>
+                            </li>
+                            <% }else {%>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+                                </li>
+                                <% } %>
+                    </ul> -->
+                    <ul class="navbar-nav mb-2 mb-lg-0" style="margin-right: 70px;">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Login</a>
+                            <a class="nav-link active" aria-current="page" href="#">Cart</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Sign Up</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" style="color: black;" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                            </a>
+                            <ul class="dropdown-menu">
+                                <% if(!currentUser){ %>
+                                    <li><a class="dropdown-item" style="font-weight: 500;" href="/register">Sign Up</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                                    <% }else{%>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                        <% } %>
+                            </ul>
                         </li>
                     </ul>
                 </div>

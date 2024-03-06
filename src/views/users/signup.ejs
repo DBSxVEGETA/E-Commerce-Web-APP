@@ -1,0 +1,56 @@
+<% layout('/layouts/boilerplate') -%>
+    <section>
+        <%- include('../partials/flash') %>
+            <h1 class="mb-4">Sign Up</h1>
+            <form action="/register" method="POST" class="validated-form" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" name="username" id="username" placeholder="Enter a username"
+                        required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a valid username.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="email" name="email" id="email"
+                        placeholder="Enter your email address" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid email.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" name="password" id=" password"
+                        placeholder="Enter your password here" required></input>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a valid password.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <p class="mb-2">Register as:</p>
+                    <div class="form-check">
+                        <label class="form-check-label" for="seller">Seller</label>
+                        <input class="form-check-input" type="radio" name="seller" id="seller" value="seller"></input>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="buyer">Buyer</label>
+                        <input class="form-check-input" type="radio" name="buyer" id="buyer" value="buyer"></input>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-sm btn-outline-dark mb-3">Sign Up</button>
+                <div class="mb-3">
+                    <p>Already have an account? <a href="/login" style="text-decoration: none;">Login</a></p>
+                </div>
+            </form>
+    </section>

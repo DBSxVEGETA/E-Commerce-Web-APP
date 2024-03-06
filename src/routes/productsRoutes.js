@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product')
 const validateProduct = require('../middlewares/validate');
+const isLoggedIn = require('../middlewares/auth');
 
 //display all products
 router.get('/products', async (req, res) => {
@@ -16,7 +17,8 @@ router.get('/products', async (req, res) => {
 })
 
 //get new product page
-router.get('/products/new', (req, res) => {
+router.get('/products/new', isLoggedIn, (req, res) => {
+
     try {
         res.render('products/new');
     }
@@ -27,11 +29,12 @@ router.get('/products/new', (req, res) => {
 
 
 //add a new product
-router.post('/products', validateProduct, async (req, res) => {
+router.post('/products', validateProduct, isLoggedIn, async (req, res) => {
     try {
         const { name, imgUrl, desc, price } = req.body;
         await Product.create({ name, imgUrl, desc, price });
 
+        req.flash('success', 'Product added successfully');
         res.redirect('/products');
     }
     catch (e) {
@@ -40,7 +43,7 @@ router.post('/products', validateProduct, async (req, res) => {
 
 })
 
-// show all products
+// show product
 
 router.get('/products/:id', async (req, res) => {
     try {
@@ -55,7 +58,7 @@ router.get('/products/:id', async (req, res) => {
 })
 
 //show edit page
-router.get('/products/:id/edit', async (req, res) => {
+router.get('/products/:id/edit', isLoggedIn, async (req, res) => {
     try {
         const { id } = req.params;
         const product = await Product.findById(id);
@@ -68,12 +71,13 @@ router.get('/products/:id/edit', async (req, res) => {
 })
 
 //edit and update product
-router.patch('/products/:id', validateProduct, async (req, res) => {
+router.patch('/products/:id', validateProduct, isLoggedIn, async (req, res) => {
     try {
         const { id } = req.params;
         const { name, imgUrl, desc, price } = req.body;
         await Product.findByIdAndUpdate(id, { name, imgUrl, desc, price });
 
+        req.flash('success', 'Edited your product successfully');
         res.redirect(`/products/${id}`);
     }
     catch (e) {
@@ -82,11 +86,12 @@ router.patch('/products/:id', validateProduct, async (req, res) => {
 })
 
 //delete a product
-router.delete('/products/:id', async (req, res) => {
+router.delete('/products/:id', isLoggedIn, async (req, res) => {
     try {
         const { id } = req.params;
         await Product.findByIdAndDelete(id);
 
+        req.flash('success', 'Product deleted successfully');
         res.redirect('/products');
     }
     catch (e) {
