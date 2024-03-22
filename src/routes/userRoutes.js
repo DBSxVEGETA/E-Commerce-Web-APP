@@ -22,8 +22,8 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { username, password, email, role } = req.body;
-        const newUser = new User({ username, email, role });
-        await User.register(newUser, password);
+        const user = new User({ username, email, role });
+        const newUser = await User.register(user, password);
 
         req.login(newUser, function (err) {
             if (err) {
@@ -43,15 +43,26 @@ router.get('/login', (req, res) => {
     res.render('users/login');
 })
 
-router.post('/login', passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: true
-}), (req, res) => {
-    // console.log(req.user);
-    req.flash('success', `Hello ${req.user.username} Welcome Back!!`)
-    console.log('Inside login route')
-    res.redirect('/products');
-});
+router.post('/login',
+    passport.authenticate('local', {
+        failureRedirect: '/login',
+        failureFlash: true
+    }),
+    (req, res) => {
+
+        req.flash('success', `Hello ${req.user.username} Welcome Back!!`)
+
+        // console.log(req.session);
+        let redirectUrl = req.session.returnUrl || '/products';
+
+        if (redirectUrl && redirectUrl.indexOf('review') !== -1) {
+            redirectUrl = redirectUrl.split('/');
+            redirectUrl.pop();
+            redirectUrl = redirectUrl.join('/');
+        }
+        delete req.session.returnUrl;
+        res.redirect(redirectUrl);
+    });
 
 router.get('/logout', (req, res) => {
     req.logout((err) => {

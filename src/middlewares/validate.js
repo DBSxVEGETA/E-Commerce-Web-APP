@@ -21,4 +21,4 @@ const validateReview = (req, res, next) => {
     next();
 }
 
-module.exports = validateProduct, validateReview 
+module.exports = validateProduct, validateReview;

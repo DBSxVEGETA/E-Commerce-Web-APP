@@ -39,9 +39,6 @@ app.use(session(sessionConfig));
 app.use(flash());
 
 
-//Auth middlewares related to passport 
-//this tells express to use local strategy
-passport.use(new LocalStrategy(User.authenticate()));
 
 // this is used to initialize passport middleware for authentication 
 app.use(passport.initialize());
@@ -55,6 +52,9 @@ passport.serializeUser(User.serializeUser());
 //this is used to deserialize(change user in string format to actual JS object) from express session. 
 passport.deserializeUser(User.deserializeUser());
 
+//Auth middlewares related to passport 
+//this tells express to use local strategy
+passport.use(new LocalStrategy(User.authenticate()));
 
 // This middleware should be added after : passport.deserializeUser(User.deserializeUser());
 // Since User is populated in the request only after it is deserialized from the session

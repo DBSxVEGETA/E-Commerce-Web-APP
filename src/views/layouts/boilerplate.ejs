@@ -25,21 +25,23 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/products">All Products</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Options
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/products/new">Add a new product</a></li>
-                                <li><a class="dropdown-item" href="#">Edit your
-                                        product</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
+                        <% if(currentUser && currentUser.role && currentUser.role==='seller' ){ %>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Options
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/products/new">Add a new product</a></li>
+                                    <li><a class="dropdown-item" href="#"> Your
+                                            products here</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                                <% } %>
+                            </li>
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
@@ -65,9 +67,13 @@
                             <a class="nav-link active" aria-current="page" href="#">Cart</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" style="color: black;" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Profile
+                            <a class="nav-link dropdown-toggle text-capitalize" style="color: black;" href="#"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <% if(!currentUser){ %>
+                                    Profile
+                                    <% }else{ %>
+                                        <%=currentUser.username%>
+                                            <% } %>
                             </a>
                             <ul class="dropdown-menu">
                                 <% if(!currentUser){ %>
