@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Product = require('../models/Product');
 const Review = require('../models/Review');
-const validateReview = require('../middlewares/validate');
+const { validateReview } = require('../middlewares/validate');
 const { isLoggedIn } = require('../middlewares/auth');
 
 

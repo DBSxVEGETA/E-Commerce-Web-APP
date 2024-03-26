@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product')
-const validateProduct = require('../middlewares/validate');
+const { validateProduct } = require('../middlewares/validate');
 const { isLoggedIn, isSeller, isProductAuthor } = require('../middlewares/auth');
-// const isSeller = require('../middlewares/auth');
-// const isProductAuthor = require('../middlewares/auth');
 
 //display all products
 router.get('/products', async (req, res) => {

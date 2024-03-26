@@ -4,8 +4,11 @@ const Product = require('../models/Product');
 
 const isLoggedIn = (req, res, next) => {
 
+    if (req.xhr && !req.isAuthenticated()) {
+        return res.status(401).json({ msg: 'You need to login first' });
+    }
+
     req.session.returnUrl = req.originalUrl;
-    // console.log(req.session);
 
     if (!req.isAuthenticated()) {
         req.flash('error', 'Please login first to perform that action!!');

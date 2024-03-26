@@ -13,6 +13,11 @@ const User = require('./models/User');
 const productRoutes = require('./routes/productsRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+
+// APIs
+const productApi = require('./routes/api/productapi');
+
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -68,6 +73,9 @@ app.use((req, res, next) => {
 app.use(productRoutes);
 app.use(reviewRoutes);
 app.use(userRoutes);
+app.use(cartRoutes);
+
+app.use(productApi);
 
 
 module.exports = app;
