@@ -7,12 +7,12 @@ const { validateReview } = require('../middlewares/validate');
 const { isLoggedIn } = require('../middlewares/auth');
 
 
-router.post('/products/:id/reviews', isLoggedIn, validateReview, async (req, res) => {
+router.post('/products/:productId/review', isLoggedIn, validateReview, async (req, res) => {
     try {
-        const { id } = req.params;
+        const { productId } = req.params;
         const { rating, comment } = req.body;
+        const product = await Product.findById(productId);
         const review = new Review({ rating, comment });
-        const product = await Product.findById(id);
 
         // Average rating logic
         const newAverageRating = ((product.avgRating * product.reviews.length) + parseInt(rating)) / (product.reviews.length + 1);
@@ -24,21 +24,27 @@ router.post('/products/:id/reviews', isLoggedIn, validateReview, async (req, res
         await product.save();
 
         req.flash('success', 'Your review was added successfully');
-        res.redirect(`/products/${id}`);
+        res.redirect(`/products/${productId}`);
     }
     catch (e) {
         res.status(500).render('error', { err: e.message });
     }
 })
 
-router.delete('/products/:id/reviews/:id', isLoggedIn, async (req, res) => {
+router.delete('/products/:id/reviews', isLoggedIn, async (req, res) => {
     try {
-        const { reviewId } = req.params;
-        const review = await Product.findByIdAndDelete(reviewId);
-        console.log(review);
+        const { id } = req.params;
+        const product = await Product.findById(id);
+        const existingReview = product.review.find((item) => { item })
+        const reviewId = product.review._id;
+        console.log(reviewId);
 
-        req.flash('success', 'Deleted your review successfully');
-        res.render('/products/show');
+
+        // const review = await Product.findById(reviewId);
+
+
+        // req.flash('success', 'Deleted your review successfully');
+        // res.render(`/products/${id}`);
     }
     catch (e) {
         res.status(500).render('error', { err: e.message })

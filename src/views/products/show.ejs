@@ -8,7 +8,13 @@
                         <img src="<%=product.imgUrl%>" class="card-img-top" alt="item image" height="220px">
                         <span class="badge rounded-pill bg-light text-dark w-25 position-absolute translate-middle-y"
                             style="top:41%;left:5%">
-                            <%=product.avgRating%> &star; | <%=product.reviews.length%>
+                            <%=product.avgRating%> &star; |
+                                <% if(!product.reviews) {%>
+                                    0
+                                    <% }else{ %>
+                                        <%=product.reviews.length%>
+                                            <% } %>
+
                         </span>
                         <div class="card-body">
                             <h5 class="card-title d-flex justify-content-between align-items-center">
@@ -29,7 +35,12 @@
                             </p>
 
                             <p class="text-muted">
-                                <%=product.reviews.length%> reviews
+                                <% if(!product.reviews) {%>
+                                    0
+                                    <% }else{ %>
+                                        <%=product.reviews.length%>
+                                            <% } %>
+                                                reviews
                             </p>
 
                             <h6 class="card-title"><span class="fw-lighter fs-6 text-decoration-line-through">Rs.<%=
@@ -52,7 +63,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5">
-                    <form action="/products/<%=product._id%>/reviews" method="POST" class="validated-form" novalidate>
+                    <form action="/products/<%=product._id%>/review" method="POST" class="validated-form" novalidate>
                         <h3 class="display-6 mb-4">Leave your Review</h3>
                         <div>
                             <fieldset class="starability-growRotate">
@@ -98,8 +109,7 @@
                                     <i style="font-weight: 300; font-size:15px;">
                                         <%=review.createdAt && review.createdAt.toLocaleDateString()%>
                                     </i>
-                                    <form action="/products/<%=product._id%>/reviews/<%=review._id%>?_method=DELETE"
-                                        method="POST">
+                                    <form action="/products/<%=product._id%>/reviews?_method=DELETE" method="POST">
                                         <button class="btn btn-sm btn-danger ">Delete</button>
                                     </form>
                                 </div>

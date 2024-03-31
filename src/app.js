@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -14,6 +19,7 @@ const productRoutes = require('./routes/productsRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 // APIs
 const productApi = require('./routes/api/productapi');
@@ -74,6 +80,7 @@ app.use(productRoutes);
 app.use(reviewRoutes);
 app.use(userRoutes);
 app.use(cartRoutes);
+app.use(paymentRoutes);
 
 app.use(productApi);
 
