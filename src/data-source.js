@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 
-
+const dbUrl = process.env.dbUrl || 'mongodb://127.0.0.1:27017/e-commerce'
 
 const connectToDatabase = async () => {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/e-commerce')
+        await mongoose.connect(dbUrl)
     }
     catch (e) {
         await mongoose.disconnect();

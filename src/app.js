@@ -13,6 +13,8 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/User');
+const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
 
 //routes
 const productRoutes = require('./routes/productsRoutes');
@@ -24,6 +26,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 // APIs
 const productApi = require('./routes/api/productapi');
 
+const dbUrl = process.env.dbUrl || 'mongodb://127.0.0.1:27017/e-commerce'
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -31,11 +34,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true, limit: '10mb', parameterLimit: 5000 }));
 app.use(methodOverride('_method'));
+app.use(helmet({ contentSecurityPolicy: false }));
+
+const secret = process.env.SECRET || 'we need a better secret'
 
 
+const store = MongoStore.create({
+    secret: secret,
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60
+})
 
 const sessionConfig = {
-    secret: 'we need a better secret',
+    store,
+    name: 'session',  // renaming connect.sid to session so that a bad player doesn't get to know about connect.sid
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -76,10 +89,10 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(productRoutes);
-app.use(reviewRoutes);
+app.use('/products', productRoutes);
+app.use('/products', reviewRoutes);
 app.use(userRoutes);
-app.use(cartRoutes);
+app.use('/cart', cartRoutes);
 app.use(paymentRoutes);
 
 app.use(productApi);
