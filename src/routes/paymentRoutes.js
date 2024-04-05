@@ -4,6 +4,7 @@ const request = require('request');
 const jsSHA = require('jssha');
 const { v4: uuid } = require('uuid');
 const { isLoggedIn } = require('../middlewares/auth');
+const Order = require('../models/Order');
 
 
 router.post('/payment_gateway/payumoney', isLoggedIn, (req, res) => {
@@ -67,17 +68,36 @@ router.post('/payment_gateway/payumoney', isLoggedIn, (req, res) => {
 });
 
 
-router.post('/payment/success', (req, res) => {
+router.post('/payment/success', isLoggedIn, async (req, res) => {
 
-    //Payumoney will send Success Transaction data to req body. Based on the response Implement UI as per you want
-    res.send(req.body);
+    const { txnId, amount, productinfo } = req.body;
 
+    //getting the current user
+    const user = req.user;
+
+    //creating a new order and storing the whole cart into orderedProduts
+    const order = new Order({ txnId, productinfo, amount, orderedProducts: [...user.cart] })
+
+    //pushing the new order into users orders array 
+    user.orders.push(order)
+
+    //saving the new order into database
+    await user.save();
+
+    //removing everything from cureent users cart
+    user.cart.splice(0, user.cart.length);
+
+    //saving the updated user to the database and assinging updated user to the req.user
+    req.user = await user.save();
+
+    req.flash('success', 'Placed your order successfully!!');
+    res.redirect('/users/myOrders');
 })
 
-router.post('/payment/fail', (req, res) => {
+router.post('/payment/fail', isLoggedIn, (req, res) => {
 
-    //Payumoney will send Fail Transaction data to req body. Based on the response Implement UI as per you want
-    res.send(req.body);
+    req.flash('error', `Oops! Can't place your order at the moment.Please try again after some time!`);
+    res.redirect('/user/cart');
 
 })
 

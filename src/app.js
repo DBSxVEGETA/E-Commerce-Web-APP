@@ -22,6 +22,7 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 // APIs
 const productApi = require('./routes/api/productapi');
@@ -89,11 +90,16 @@ app.use((req, res, next) => {
     next();
 })
 
+app.get('/', (req, res) => {
+    res.render('home');
+})
+
 app.use('/products', productRoutes);
 app.use('/products', reviewRoutes);
 app.use(userRoutes);
 app.use('/cart', cartRoutes);
 app.use(paymentRoutes);
+app.use(orderRoutes);
 
 app.use(productApi);
 

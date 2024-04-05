@@ -35,8 +35,14 @@ const addProductToCart = async (req, res) => {
     }
 }
 
+const removeProduct = async (req, res) => {
+    const { productId } = req.params;
+    const userId = req.user._id;
+    await User.cart
+}
 
 module.exports = {
     getCartPage,
-    addProductToCart
+    addProductToCart,
+    removeProduct
 }

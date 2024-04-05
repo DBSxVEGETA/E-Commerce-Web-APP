@@ -10,7 +10,9 @@ const cartController = require('../controllers/cartController')
 router.get('/', isLoggedIn, cartController.getCartPage)
 
 // add product to cart
-router.post('/:productId', isLoggedIn, cartController.addProductToCart)
+router.route('/:productId')
+    .post(isLoggedIn, cartController.addProductToCart)
+
 
 
 module.exports = router;

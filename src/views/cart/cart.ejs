@@ -19,8 +19,14 @@
                                     </h5>
                                     <p class="card-text">Price : &#8377 <%=item.price%>
                                     </p>
-                                    <p class="card-text">Quantity : <%=item.qty%>
-                                    </p>
+                                    <div class="d-flex">
+                                        <p class="card-text">Quantity : <%=item.qty%>
+                                        </p>
+                                        <form action="">
+                                            <button class="btn btn-sm btn-dark"
+                                                style="margin-left: 170px;">Remove</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
