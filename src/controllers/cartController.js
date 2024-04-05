@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const Product = require('../models/Product');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 
 const getCartPage = async (req, res) => {
@@ -35,14 +37,29 @@ const addProductToCart = async (req, res) => {
     }
 }
 
-const removeProduct = async (req, res) => {
-    const { productId } = req.params;
-    const userId = req.user._id;
-    await User.cart
+const removeProductFromCart = async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const userId = req.user._id;
+
+        const productIdObj = new ObjectId(productId);
+
+        await User.updateOne(
+            { _id: userId },
+            { $pull: { cart: { productId: productIdObj } } }
+        );
+        req.flash('success', 'Product removed from the cart successfully');
+        res.redirect('/cart');
+    }
+    catch (e) {
+        res.status(500).render('error', { err: e.message })
+    }
 }
+
+
 
 module.exports = {
     getCartPage,
     addProductToCart,
-    removeProduct
+    removeProductFromCart
 }

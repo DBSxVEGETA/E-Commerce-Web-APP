@@ -25,27 +25,42 @@ const createReview = async (req, res) => {
     }
 }
 
-
 const deleteReview = async (req, res) => {
     try {
-        const { id } = req.params;
-        const product = await Product.findById(id);
-        const existingReview = product.review.find((item) => { item })
-        const reviewId = product.review._id;
-        console.log(reviewId);
+        const { id, reviewId } = req.params;
 
+        //Remove the review from the reviews collection
+        await Review.deleteOne({ _id: reviewId });
+        // Remove the review from the products reviews array
+        await Product.updateOne(
+            { _id: id },
+            { $pull: { reviews: reviewId } }
+        )
 
-        // const review = await Product.findById(reviewId);
+        // Fetch the product again to reflect the updated reviews array
+        const product = await Product.findById(id).populate('reviews');
 
+        // Recalculate the average rating
+        let totalRating = 0;
+        product.reviews.forEach(review => {
+            totalRating += review.rating;
+        });
 
-        // req.flash('success', 'Deleted your review successfully');
-        // res.render(`/products/${id}`);
+        const newAvgRating = product.reviews.length > 0 ? totalRating / product.reviews.length : 0;
+
+        // Update the avgRating
+        product.avgRating = parseFloat(newAvgRating.toFixed(1));
+
+        // Save the updated product
+        await product.save();
+
+        req.flash('success', 'Review deleted successfully');
+        res.redirect(`/products/${id}`);
     }
     catch (e) {
-        res.status(500).render('error', { err: e.message })
+        res.status(500).render('error', { err: e.message });
     }
 }
-
 
 module.exports = {
     createReview,
