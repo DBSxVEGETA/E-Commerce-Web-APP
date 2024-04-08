@@ -47,10 +47,10 @@
                                 <% } %>
                             </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                            style="font-size: 1rem;">
-                        <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
+                    <form class="d-flex" role="search" action="/search" method="GET">
+                        <input class="form-control me-2" type="text" name="query" placeholder="Search for a product..."
+                            aria-label="Search" style="font-size: 1rem; width: 270px;">
+                        <button class="btn btn-outline-dark btn-sm" type="submit">Search</button>
                     </form>
                     <!-- <ul class="navbar-nav ml-auto mb-2 mb-lg-0" style="margin-right: 20px;">
                         <% if(!currentUser){ %>
@@ -93,7 +93,7 @@
                                     </li>
                                     <li><a class="dropdown-item" href="/login">Login</a></li>
                                     <% }else{%>
-                                        <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                        <li><a class="dropdown-item" href="/wishlist">Wishlist</a></li>
                                         <li><a class="dropdown-item" href="/user/myOrders">My Orders</a></li>
                                         <li>
                                             <hr class="dropdown-divider">

@@ -1,3 +1,4 @@
+const catchAsync = require('../core/catchAsync');
 const Product = require('../models/Product');
 
 
@@ -28,8 +29,7 @@ const isSeller = (req, res, next) => {
     next();
 }
 
-const isProductAuthor = async (req, res, next) => {
-
+const isProductAuthor = catchAsync(async (req, res, next) => {
     const { id: productId } = req.params;
     const product = await Product.findById(productId);
     const currentUser = req.user._id;
@@ -38,7 +38,7 @@ const isProductAuthor = async (req, res, next) => {
         return res.redirect(`/products/${productId}`);
     }
     next();
-}
+});
 
 module.exports = { isLoggedIn, isSeller, isProductAuthor };
 

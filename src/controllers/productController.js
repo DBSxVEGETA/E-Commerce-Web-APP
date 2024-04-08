@@ -1,19 +1,12 @@
+const { BadRequestError } = require('../core/ApiError');
 const Product = require('../models/Product');
 
-
 const showAllProducts = async (req, res) => {
-    try {
-        const products = await Product.find({});
-
-        res.render('products/index', { products });
-    }
-    catch (e) {
-        res.status(500).render('error', { err: e.message })
-    }
+    const products = await Product.find({});
+    res.render('products/index', { products });
 }
 
 const getNewProductPage = (req, res) => {
-
     try {
         res.render('products/new');
     }
@@ -23,75 +16,62 @@ const getNewProductPage = (req, res) => {
 }
 
 const createNewProduct = async (req, res) => {
-    try {
-        const { name, imgUrl, desc, price } = req.body;
-        await Product.create({ name, imgUrl, desc, price, author: req.user._id });
+    const { name, imgUrl, desc, price, discount } = req.body;
+    const newProduct = await Product.create({ name, imgUrl, desc, price, discount, author: req.user._id });
+    const discountedPrice = price - (price * discount / 100);
+    newProduct.discountedPrice = discountedPrice;
 
-        req.flash('success', 'Product added successfully');
-        res.redirect('/products');
-    }
-    catch (e) {
-        res.status(500).render('error', { err: e.message })
-    }
+    await newProduct.save();
+
+    req.flash('success', 'Product added successfully');
+    res.redirect('/products');
 }
 
-const showPoduct = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const product = await Product.findById(id).populate('reviews');
-
-        res.render('products/show', { product });
+const showProduct = async (req, res) => {
+    const { id } = req.params;
+    const product = await Product.findById(id).populate('reviews');
+    if (!product) {
+        throw new BadRequestError(`Product with this id: ${id} doesn't exists.`);
     }
-    catch (e) {
-        res.status(500).render('error', { err: e.message })
-    }
+    res.render('products/show', { product });
 }
 
 const showEditPage = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const product = await Product.findById(id);
-
-        res.render('products/edit', { product });
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+        throw new BadRequestError(`Product with this id: ${id} doesn't exists.`)
     }
-    catch (e) {
-        res.status(500).render('error', { err: e.message })
-    }
+    res.render('products/edit', { product });
 }
 
 const editProduct = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { name, imgUrl, desc, price } = req.body;
-        await Product.findByIdAndUpdate(id, { name, imgUrl, desc, price });
+    const { id } = req.params;
+    const { name, imgUrl, desc, price, discount } = req.body;
+    const discountedPrice = price - (price * discount / 100);
+    await Product.findByIdAndUpdate(id, { name, imgUrl, desc, price, discount, discountedPrice });
 
-        req.flash('success', 'Edited your product successfully');
-        res.redirect(`/products/${id}`);
-    }
-    catch (e) {
-        res.status(500).render('error', { err: e.message })
-    }
+    req.flash('success', 'Edited your product successfully');
+    res.redirect(`/products/${id}`);
 }
 
-const deleteProduct = async (req, res) => {
-    try {
-        const { id } = req.params;
-        await Product.findByIdAndDelete(id);
 
-        req.flash('success', 'Product deleted successfully');
-        res.redirect('/products');
-    }
-    catch (e) {
-        res.status(500).render('error', { err: e.message })
-    }
+
+const deleteProduct = async (req, res) => {
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+
+    req.flash('success', 'Product deleted successfully');
+    res.redirect('/products');
 }
 
 module.exports = {
     showAllProducts,
     getNewProductPage,
     createNewProduct,
-    showPoduct,
+    showProduct,
     showEditPage,
     editProduct,
+    // searchProduct,
     deleteProduct
 };

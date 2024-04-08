@@ -2,7 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -16,13 +15,15 @@ const User = require('./models/User');
 const helmet = require('helmet');
 const MongoStore = require('connect-mongo');
 
+
 //routes
 const productRoutes = require('./routes/productsRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const stripePaymentRoutes = require('./routes/stripePaymentRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
 
 // APIs
 const productApi = require('./routes/api/productapi');
@@ -38,6 +39,7 @@ app.use(methodOverride('_method'));
 app.use(helmet({ contentSecurityPolicy: false }));
 
 const secret = process.env.SECRET || 'we need a better secret'
+
 
 
 const store = MongoStore.create({
@@ -98,8 +100,9 @@ app.use('/products', productRoutes);
 app.use('/products', reviewRoutes);
 app.use(userRoutes);
 app.use('/cart', cartRoutes);
-app.use(paymentRoutes);
 app.use(orderRoutes);
+app.use(stripePaymentRoutes);
+app.use(wishlistRoutes);
 
 app.use(productApi);
 

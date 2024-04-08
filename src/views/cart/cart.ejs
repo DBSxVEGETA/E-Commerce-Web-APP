@@ -3,64 +3,86 @@
         <%- include('../partials/flash') %>
             <h4 class="display-4 bg-light p-3 rounded" style="text-align: center;">My Cart</h4>
             <div class="row">
-                <div class="col-lg-8">
+                <% if((currentUser && currentUser.cart.length==0) ){ %>
+                    <div class="d-flex"
+                        style=" flex-direction: column; justify-content: center; align-items: center; height: 60vh;">
+                        <div style="margin-bottom: 10px;">
+                            <h5>There is nothing in your cart. Let's add some products.</h5>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <form action="/products">
+                                <button class="btn btn-sm btn-dark">Let's Go Shopping</button>
+                            </form>
+                        </div>
+                        <% }else{ %>
+                            <div class="col-lg-8">
 
-                    <% for(let product of cart){%>
-                        <div class="card mx-auto mb-3" style="max-width: 540px;">
-                            <div class="row g-0">
-                                <div class="col-4">
-                                    <img src="<%=product.imgUrl%>" class="img-fluid rounded-start" style="height: 100%;"
-                                        alt="...">
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <%=product.name%>
-                                        </h5>
-                                        <p class="card-text">Price : &#8377 <%=product.price%>
-                                        </p>
-                                        <div class="d-flex">
-                                            <p class="card-text">Quantity : <%=product.qty%>
-                                            </p>
-                                            <form action="/cart/<%=product.productId%>?_method=PATCH" method="POST">
-                                                <button class="btn btn-sm btn-dark"
-                                                    style="margin-left: 170px;">Remove</button>
-                                            </form>
+                                <% for(let product of cart){%>
+                                    <div class="card mx-auto mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                            <div class="col-4">
+                                                <img src="<%=product.imgUrl%>" class="img-fluid rounded-start"
+                                                    style="height: 100%;" alt="...">
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        <%=product.name%>
+                                                    </h5>
+                                                    <p class="card-text">Price : &#8377 <%=product.price%>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            Discount :
+                                                            <%=product.discount%>%
+                                                    </p>
+
+                                                    <div class="d-flex">
+                                                        <p class="card-text">Quantity : <%=product.qty%>
+                                                        </p>
+                                                        <form action="/cart/<%=product.productId%>?_method=PATCH"
+                                                            method="POST">
+                                                            <button class="btn btn-sm btn-dark"
+                                                                style="margin-left: 170px;">Remove</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <%} %>
                             </div>
-                        </div>
-                        <%} %>
-                </div>
-                <div class="col-lg-4">
-                    <ul class="list-group">
-                        <h5 class="display-6 p-1 rounded" style="font-size: 25px">Price Summary</h5>
-                        <%for(const item of cart){%>
-                            <li class="list-group-item"><span class="fw-bold">
-                                    <%=item.name%> -
-                                </span>&#8377; <%=item.price%> x <span>
-                                        <%=item.qty%>
-                                    </span></li>
-                            <%}%>
-                                <li class="list-group-item fw-bold">Total Amount : &#8377; <%=totalCartAmount%>
-                                </li>
-                    </ul>
-                    <form action="/payment_gateway/payumoney" method="POST">
+                            <div class="col-lg-4">
+                                <ul class="list-group">
+                                    <h5 class="display-6 p-1 rounded" style="font-size: 25px">Price Summary</h5>
+                                    <%for(const item of cart){%>
+                                        <li class="list-group-item"><span class="fw-bold">
+                                                <%=item.name%> -
+                                            </span>&#8377; <%=item.discountedPrice%> x <span>
+                                                    <%=item.qty%>
+                                                </span></li>
+                                        <%}%>
+                                            <br>
+                                            <li class="list-group-item fw-bold">Total Amount : &#8377;
+                                                <%=totalCartAmount%>
+                                            </li>
+                                </ul>
+                                <form action="/create-checkout-session" method="POST">
 
-                        <input class="amount" type="hidden" name="amount" value="<%=totalCartAmount%>" />
+                                    <input class="amount" type="hidden" name="amount" value="<%=totalCartAmount%>" />
 
-                        <input class="con" type="hidden" name="phone" value="9999999999" />
+                                    <input class="con" type="hidden" name="phone" value="9999999999" />
 
-                        <input type="hidden" name="service_provider" value="payu_paisa" />
+                                    <input type="hidden" name="service_provider" value="payu_paisa" />
 
-                        <input type="hidden" class="product" name="productinfo" value="<%=productInfo%>" />
+                                    <input type="hidden" class="product" name="productinfo" value="<%=productInfo%>" />
 
-                        <button type="submit" class="btn btn-sm btn-success mt-2">Checkout</button>
+                                    <button type="submit" class="btn btn-sm btn-success mt-2">Checkout</button>
+                                    <a href="/products"
+                                        style="text-decoration: none; display: flex; justify-content: end; color: black;">
+                                        << Continue Shopping</a>
 
-                    </form>
-
-                </div>
+                                </form>
+                            </div>
+                            <% } %>
+                    </div>
             </div>
-
     </section>

@@ -45,8 +45,10 @@
 
                             <h6 class="card-title"><span class="fw-lighter fs-6 text-decoration-line-through">Rs.<%=
                                         product.price %>
-                                </span> Rs.<%= product.price %> <span class="fw-light fs-6 text-warning">( 50 %
-                                        OFF )</span> </h6>
+                                </span> Rs.<%= product.discountedPrice%> <span class="fw-light fs-6 text-warning">(
+                                        <%=product.discount%> %
+                                            OFF )
+                                    </span> </h6>
                             <a href="/products/<%=product._id%>" class="btn btn-sm btn-dark">Buy Now</a>
                             <form class="d-inline-block" action="/cart/<%=product._id%>" method="POST">
                                 <button class="btn btn-sm btn-success">Add To

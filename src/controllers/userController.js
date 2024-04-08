@@ -1,8 +1,7 @@
 const User = require('../models/User');
-const passport = require('passport');
+
 
 const getRegisterPage = (req, res) => {
-
     res.render('users/signup')
 }
 

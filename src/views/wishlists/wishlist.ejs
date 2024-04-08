@@ -2,14 +2,15 @@
     <section>
         <%- include('../partials/flash') %>
             <div class="row">
-                <h4 class="display-4 bg-light p-3 rounded" style="text-align: center;">All Products</h4>
+                <h4 class="display-4 bg-light p-3 rounded" style="text-align: center;">Your Wishlist</h4>
                 <% if(products.length===0){ %>
-                    <p>No Products Available</p>
+                    <p>No products in your wishlist</p>
                     <% }else{ %>
                         <% for(let product of products) {%>
                             <div class="col-lg-3 col-md-6 mb-3">
                                 <div class="card shadow-sm mx-auto position-relative" style="width: 20rem;">
-                                    <img src="<%=product.imgUrl%>" class="card-img-top" alt="item image" height="220px">
+                                    <img src="<%=product.imgUrl%>" class="card-img-top" alt="product image"
+                                        height="220px">
                                     <span
                                         class="badge rounded-pill bg-light text-dark w-20 position-absolute translate-middle-y"
                                         style="top:41%;left:5%">
@@ -18,7 +19,7 @@
 
                                     </span>
                                     <div class="card-body">
-                                        <h5 class="card-title d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title d-flex justify-content-between align-products-center">
                                             <span>
                                                 <%= product.name %>
                                             </span>
@@ -52,7 +53,12 @@
                                                     <%=product.discount%> %
                                                         OFF )
                                                 </span> </h6>
-                                        <a href="/products/<%=product._id%>" class="btn btn-sm btn-dark">Buy Now</a>
+                                        <a href="/products/<%=product._id%>" class="btn btn-sm btn-dark">Buy
+                                            Now</a>
+                                        <form class="d-inline-block" action="/cart/<%=product._id%>" method="POST">
+                                            <button class="btn btn-sm btn-success">Add To
+                                                Cart</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

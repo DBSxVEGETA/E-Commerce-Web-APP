@@ -48,6 +48,19 @@
                     Please provide a valid price.
                 </div>
             </div>
+            <div class="input-group mb-3" style="width: 440px;">
+                <span class="input-group-text">Discount</span>
+                <input type="text" class="form-control" name="discount" id="discount"
+                    aria-label="Amount (to the nearest dollar)" placeholder="Enter the % of discount for your product"
+                    value="<%=product.discount%>" required>
+                <span class="input-group-text">%</span>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Enter number only.
+                </div>
+            </div>
             <button class="btn btn-sm btn-outline-success">Update</button>
         </form>
     </section>
