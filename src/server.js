@@ -3,7 +3,7 @@ const DB = require('./data-source');
 // const seedProducts = require('./seeds/productsSeed')
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 (async () => {
     try {

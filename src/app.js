@@ -14,6 +14,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/User');
 const helmet = require('helmet');
 const MongoStore = require('connect-mongo');
+const mongoSanitize = require('express-mongo-sanitize');
 
 
 //routes
@@ -28,7 +29,7 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 // APIs
 const productApi = require('./routes/api/productapi');
 
-const dbUrl = process.env.dbUrl || 'mongodb://127.0.0.1:27017/e-commerce'
+const MONGO_DATABASE_URL = process.env.MONGO_DATABASE_URL || 'mongodb://127.0.0.1:27017/e-commerce'
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true, limit: '10mb', parameterLimit: 5000 }));
 app.use(methodOverride('_method'));
 app.use(helmet({ contentSecurityPolicy: false }));
+app.use(mongoSanitize());
 
 const secret = process.env.SECRET || 'we need a better secret'
 
@@ -44,7 +46,7 @@ const secret = process.env.SECRET || 'we need a better secret'
 
 const store = MongoStore.create({
     secret: secret,
-    mongoUrl: dbUrl,
+    mongoUrl: MONGO_DATABASE_URL,
     touchAfter: 24 * 60 * 60
 })
 
@@ -99,12 +101,14 @@ app.get('/', (req, res) => {
 app.use('/products', productRoutes);
 app.use('/products', reviewRoutes);
 app.use(userRoutes);
-app.use('/cart', cartRoutes);
-app.use(orderRoutes);
-app.use(stripePaymentRoutes);
-app.use(wishlistRoutes);
-
 app.use(productApi);
+app.use(wishlistRoutes);
+app.use('/cart', cartRoutes);
+app.use(stripePaymentRoutes);
+app.use(orderRoutes);
 
+app.all('*', (req, res) => {
+    res.render('error', { err: 'You are requesting a wrong url!!!' })
+});
 
 module.exports = app;
