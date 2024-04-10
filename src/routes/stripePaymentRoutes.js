@@ -83,9 +83,9 @@ router.post('/create-checkout-session', isLoggedIn, catchAsync(async (req, res) 
                     product_data: {
                         name: item.name,
                         images: [item.imgUrl],
-                        metadata: {
-                            id: item.productId
-                        }
+                        // metadata: {
+                        //     id: item.productId
+                        // }
                     },
                     unit_amount: (item.discountedPrice) * 100,
                 },
@@ -102,53 +102,6 @@ router.post('/create-checkout-session', isLoggedIn, catchAsync(async (req, res) 
 }));
 
 
-//stripe webhook
-
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
-// let endpointSecret;
-// endpointSecret = process.env.ENDPOINT_SECRET;
-
-
-// router.post('/webhook', express.raw({ type: 'application/json' }),
-//     (req, res) => {
-//         const sig = req.headers['stripe-signature'];
-
-//         let data;
-//         let eventType;
-
-//         if (endpointSecret) {
-//             let event;
-
-//             try {
-//                 event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-//                 console.log("Webhook verified")
-//             } catch (err) {
-//                 console.log(`Webhook Error: ${err.message}`)
-//                 res.status(400).send(`Webhook Error: ${err.message}`);
-//                 return;
-//             }
-
-//             data = event.data.object;
-//             eventType = event.type;
-//         } else {
-//             data = req.body.data.object;
-//             eventType = req.body.type;
-//         }
-
-//         // Handle the event
-//         if (eventType === "checkout.session.completed") {
-//             stripe.customers
-//                 .retrieve(data.customer)
-//                 .then((customer) => {
-//                     console.log(customer);
-//                     console.log("data:", data);
-//                 })
-//                 .catch((err) => console.log(err.message));
-//         }
-
-//         // Return a 200 res to acknowledge receipt of the event
-//         res.send().end();
-//     });
 
 router.get('/success', isLoggedIn, (req, res) => {
     res.render('payment/success')
