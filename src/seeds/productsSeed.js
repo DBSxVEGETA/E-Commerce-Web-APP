@@ -12,7 +12,7 @@ const DUMMY_PRODUCTS = [
     {
         name: "MacBook Pro",
         price: 255400,
-        desc: "Apple MacBook Pro has 13.30-inch display that has a resolution of 2560x1600 pixels. Powered by a Core i5 processor and it comes with 12GB of RAM.",
+        desc: "The MacBook Pro is a line of Mac laptops that Apple developed and manufactures. The MacBook Pro is designed for professionals. ",
         imgUrl: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFjYm9va3xlbnwwfHwwfHx8MA%3D%3D",
         discount: 5,
         discountedPrice: 242630
@@ -20,7 +20,7 @@ const DUMMY_PRODUCTS = [
     {
         name: "Apple Watch Ultra 2",
         price: 89900,
-        desc: "Apple Watch Ultra has tough 49mm titanium case with customisable Action button. The most accurate GPS in a sports watch in dense urban environments.",
+        desc: "The Apple Watch Ultra 2 is a stylish wristwatch that serves as a personal assistant, fitness tracker, and communication tool all in one.",
         imgUrl: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ultra-band-unselect-gallery-1-202309_GEO_BR?wid=5120&hei=3280&fmt=p-jpg&qlt=80&.v=1693544498074",
         discount: 10,
         discountedPrice: 80910
@@ -44,7 +44,7 @@ const DUMMY_PRODUCTS = [
     {
         name: "AirPods Max",
         price: 59900,
-        desc: "AirPods Max are over-ear headphones that use computational audio to optimize listening. Available in five colors:Space Gray, Silver, Sky Blue, Green, and Pink.",
+        desc: "Apple AirPods Max are wireless over-ear headphones designed for an immersive listening experience. Sounds like an epiphany.",
         imgUrl: "https://images.unsplash.com/photo-1628116709703-c1c9ad550d36?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         discount: 15,
         discountedPrice: 50915
@@ -52,7 +52,7 @@ const DUMMY_PRODUCTS = [
     {
         name: "Apple TV 4K",
         price: 16900,
-        desc: "The Apple TV 4K is a smart home hub that can control and provide remote access to connected accessories. It also offers access to a wide range of streaming services.",
+        desc: "Apple TV is a streaming media player that connects to your TV and lets you stream shows and movies from apps such as Netflix, Disney+ and more.",
         imgUrl: "https://images.unsplash.com/photo-1621685950846-9323d993bbf3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXBwbGUlMjB0dnxlbnwwfHwwfHx8MA%3D%3D",
         discount: 20,
         discountedPrice: 13520

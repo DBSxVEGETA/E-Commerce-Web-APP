@@ -102,7 +102,7 @@ router.post('/create-checkout-session', isLoggedIn, catchAsync(async (req, res) 
 }));
 
 
-//stripe webhook
+//stripe webhook for order system
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 // let endpointSecret;
