@@ -18,7 +18,7 @@
                             <div class="col-lg-8">
 
                                 <% for(let product of cart){%>
-                                    <div class="card mx-auto mb-3" style="max-width: 540px;">
+                                    <!-- <div class="card mx-auto mb-3" style="max-width: 540px;">
                                         <div class="row g-0">
                                             <div class="col-4">
                                                 <img src="<%=product.imgUrl%>" class="img-fluid rounded-start"
@@ -47,11 +47,82 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div> -->
+
+
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4" style="padding: 8px;">
+                                                <img src="<%=product.imgUrl%>" style="border-radius: 5px;"
+                                                    class="img-fluid rounded-start" alt="...">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        <%=product.name%>
+                                                    </h5>
+                                                    <!-- <p class="card-text mb-0    ">
+                                                        <%=product.price%>
+                                                            <span class="fw-light fs-6 text-warning">(
+                                                                <%=product.discount%> %
+                                                                    OFF )
+                                                            </span>
+                                                    </p> -->
+                                                    <h6 class="card-title"><span
+                                                            class="fw-lighter fs-6 text-decoration-line-through">Rs.<%=
+                                                                product.price %>
+                                                        </span> Rs.<%=product.discountedPrice%>
+                                                            <span class="fw-light fs-6 text-warning">(
+                                                                <%=product.discount%> %
+                                                                    OFF )
+                                                            </span> </h6>
+                                                    <div class="d-flex">
+                                                        <!-- <p class="card-text"><small class=" text-body-secondary">Qty :
+                                                                <%=product.qty%>
+                                                            </small>
+                                                        </p> -->
+                                                        <div class="btn-group">
+                                                            <button
+                                                                class="btn btn-link text-body-secondary dropdown-toggle"
+                                                                type="button" data-bs-toggle="dropdown"
+                                                                aria-expanded="false" style="text-decoration: none;">
+                                                                Qty: <%=product.qty%>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item" href="#">1</a></li>
+                                                                <li><a class="dropdown-item" href="#">2</a></li>
+                                                                <li><a class="dropdown-item" href="#">3</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <form action="/cart/<%=product.productId%>?_method=PATCH"
+                                                            method="POST">
+                                                            <button class="btn btn-link text-body-secondary"
+                                                                style="text-decoration: none; ">Remove</button>
+                                                        </form>
+                                                        <form action="/cart/<%=product.productId%>/save" method="POST">
+                                                            <button class="btn btn-link text-body-secondary"
+                                                                style="text-decoration: none; ">Save for later</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <%} %>
                             </div>
                             <div class="col-lg-4">
                                 <ul class="list-group">
+                                    <div class="card mb-3">
+                                        <div class="card-body" style="display: flex; justify-content: space-between;">
+                                            <div>
+                                                <i class="bi bi-bookmark-heart-fill"></i> &nbsp;
+                                                <a style="text-decoration: none; color: black;" href="/wishlist">Add
+                                                    More From
+                                                    Wishlist</a>
+                                            </div>
+                                            <i class="bi bi-chevron-right"></i>
+                                        </div>
+                                    </div>
                                     <h5 class="display-6 p-1 rounded" style="font-size: 25px">Price Summary</h5>
                                     <%for(const item of cart){%>
                                         <li class="list-group-item"><span class="fw-bold">

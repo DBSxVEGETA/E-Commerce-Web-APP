@@ -53,10 +53,30 @@ const removeProductFromCart = async (req, res) => {
     res.redirect('/cart');
 }
 
+const saveForLater = (async (req, res) => {
+    const { productId } = req.params;
+    const userId = req.user._id;
+    // grab the current login user
+    const user = req.user;
+    const isLiked = user.wishList.includes(productId);
+
+    const option = isLiked ? '$pull' : '$addToSet';
+    req.user = await User.findByIdAndUpdate(req.user._id, { [option]: { wishList: productId } }, { new: true })
+
+    const productIdObj = new ObjectId(productId);
+
+    await User.updateOne(
+        { _id: userId },
+        { $pull: { cart: { productId: productIdObj } } }
+    );
+    req.flash('success', 'Product added to wishlist successfully');
+    res.redirect('/cart');
+})
 
 
 module.exports = {
     getCartPage,
     addProductToCart,
-    removeProductFromCart
+    removeProductFromCart,
+    saveForLater
 }

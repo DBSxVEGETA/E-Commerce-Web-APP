@@ -83,9 +83,9 @@ router.post('/create-checkout-session', isLoggedIn, catchAsync(async (req, res) 
                     product_data: {
                         name: item.name,
                         images: [item.imgUrl],
-                        metadata: {
-                            id: item.productId
-                        }
+                        // metadata: {
+                        //     id: item.productId
+                        // }
                     },
                     unit_amount: (item.discountedPrice) * 100,
                 },
