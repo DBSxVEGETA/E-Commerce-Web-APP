@@ -57,11 +57,19 @@ const saveForLater = (async (req, res) => {
     const { productId } = req.params;
     const userId = req.user._id;
     // grab the current login user
-    const user = req.user;
-    const isLiked = user.wishList.includes(productId);
+    const currentUser = req.user;
+    const isLiked = currentUser.wishList.includes(productId);
 
-    const option = isLiked ? '$pull' : '$addToSet';
-    req.user = await User.findByIdAndUpdate(req.user._id, { [option]: { wishList: productId } }, { new: true })
+    if (isLiked) {
+        // req.user = await User.findByIdAndUpdate(req.user._id, { $pull: { wishList: productId } }, { new: true });
+        req.flash('success', `Product is already present in your wishlist`)
+    }
+    else {
+        req.user = await User.findByIdAndUpdate(req.user._id, { $addToSet: { wishList: productId } }, { new: true });
+        req.flash('success', `Product added to wishlist successfully`);
+    }
+    // const option = isLiked ? '$pull' : '$addToSet';
+    // req.user = await User.findByIdAndUpdate(req.user._id, { [option]: { wishList: productId } }, { new: true })
 
     const productIdObj = new ObjectId(productId);
 
@@ -69,7 +77,6 @@ const saveForLater = (async (req, res) => {
         { _id: userId },
         { $pull: { cart: { productId: productIdObj } } }
     );
-    req.flash('success', 'Product added to wishlist successfully');
     res.redirect('/cart');
 })
 
