@@ -33,8 +33,9 @@ const loginUser = (req, res) => {
 
     req.flash('success', `Hello ${req.user.username} Welcome Back!!`)
 
-    // console.log(req.session);
-    let redirectUrl = req.session.returnUrl || '/products';
+    console.log('in loginUser route')
+    console.log(req.session);
+    const redirectUrl = req.session.returnUrl || '/products';
 
     if (redirectUrl && redirectUrl.indexOf('review') !== -1) {
         redirectUrl = redirectUrl.split('/');

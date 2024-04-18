@@ -12,6 +12,8 @@ const isLoggedIn = (req, res, next) => {
     req.session.returnUrl = req.originalUrl;
 
     if (!req.isAuthenticated()) {
+        console.log('in isloggedIn route');
+        console.log(req.session);
         req.flash('error', 'Please login first to perform that action!!');
         return res.redirect('/login');
     }
