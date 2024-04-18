@@ -23,6 +23,7 @@ nav{
     display: flex;
     justify-content: flex-start;
     flex-direction: row; 
+    /* box-shadow: -5px 0 5px rgba(0,0,0,0.25); */
 }
 
 .home-search-container{
@@ -37,26 +38,23 @@ nav{
     display: flex;
     flex-direction: row;
     align-items: start;
+    
 }
 
 nav .left-nav-links{
     height: 100%;
-    /* padding: 0 20px; */
     display: flex;
     align-items: center;
     color: var(--text-color);
 }
 
 nav .left-nav-links:hover{
-    /* background-color: var(--accent-color); */
-    /* text-shadow: 2px 2px 4px rgb(255, 255, 255);  */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 nav .left-nav-links:nth-of-type(1):hover{
-    /* background-color: var(--color-1); */
-    /* text-shadow: 2px 2px 4px rgb(255, 255, 255); */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 .navbar-brand{
     height: 100%;
     display: flex;
@@ -209,6 +207,7 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         padding: 20px 30px;
         justify-content: start;
     }
+    
     .open-left-sidebar-button, .close-left-sidebar-button{
         /* padding: 20px; */
         display: block;
@@ -223,12 +222,13 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     } 
 
     #left-sidebar-active:checked ~ #left-overlay{
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 100vw;
         position: fixed;
         top: 0;
         right: 0;
         z-index: 9;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 
     .right-links-container{
@@ -270,6 +270,7 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         top: 0;
         left: 0;
         z-index: 9;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 }
 
@@ -285,9 +286,6 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     .left-links-container, .right-links-container {
         width: 100%; /* Make both left and right containers full width */
     }
-    #search-bar {
-        /* margin-top: 0; /* Remove top margin for smaller screens */
-    }
 
     #search-bar {
         /* flex-direction: column; */
@@ -302,14 +300,19 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @media(max-width:450px){
+
+    #search-bar{
+        display: none;
+    }
     .shopping-bag{
         padding: 0px;
         /* margin-right: 5px; */
-        margin-left: 40px;
+        /* margin-left: 70px; */
     }
     .open-right-sidebar-button{
         padding: 0px;
-        margin-right: 5px;
+        /* margin-left: 30px; */
+        justify-content: flex-end;
     }
 
 
